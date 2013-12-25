@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <script type="text/javascript" src="cordova.js"></script>
+
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/metro-bootstrap.css">
+        <script src="js/core/core.js"></script>
+        <script src="js/core/models.js"></script>
+        <script src="js/core/ajax.js"></script>
+        <script src="js/config/init.js"></script>
+        <script src="js/avalon/avalon.js"></script>
+        <title>BeeBoo</title>
+    </head>
+    <body>
+        <header>
+            <h1>BeeBoo</h1>
+        </header>
+
+        <section ms-controller="ambulance">
+            <table class="table" ms-visible="beeboos.size()">
+                <thead>
+                    <tr>
+                        <th class="text-left">Level</th>
+                        <th class="text-left">Time</th>
+                        <th class="text-left">Msg</th>
+                    </tr>
+                </thead>
+                <tbody ms-each-bb="beeboos">
+                    <tr ms-class="{{bb.level}}">
+                        <td>{{bb.level|uppercase}}</td>
+                        <td>{{bb.createdAt|date('hh:mm:ss')}}</td>
+                        <td>{{bb.msg}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div ms-visible="!beeboos.size()">
+                <p>no beeboo!</p>
+            </div>
+        </section>
+
+        <script type="text/javascript">
+            // 定义vm
+            var ambulanceVM = avalon.define('ambulance', function (vm) {
+                vm.beeboos = [];
+            });
+            // socket
+            geddy.io.addListenersForModels(['Beeboo']);
+            geddy.model.Beeboo.on('save', function (beeboo) {
+                ambulanceVM.beeboos.unshift(beeboo);
+            });
+        </script>
+
+
+        <div id="test"></div>
+        <script src="js/test.js"></script>
+        <p><button onclick="clickBtn();">test</button></p>
+        <script type="text/javascript" charset="utf-8">
+        // Wait for device API libraries to load
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        // device APIs are available
+        //
+        function onDeviceReady() {
+            // Empty
+        }
+
+        // alert dialog dismissed
+        function alertDismissed() {
+            // do something
+        }
+
+        // Show a custom alertDismissed
+        //
+        function showAlert() {
+            navigator.notification.alert(
+                'You are the winner!',  // message
+                alertDismissed,         // callback
+                'Game Over',            // title
+                'Done'                  // buttonName
+            );
+        }
+        </script>
+        <p><a href="#" onclick="showAlert(); return false;">Show Alert</a></p>
+    </body>
+</html>
