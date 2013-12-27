@@ -12,7 +12,7 @@
         }, function (data, text) {
             addText('onload');
             navigator.notification.vibrate(300);
-            navigator.notification.beep(300);
+            // navigator.notification.beep(1);
             navigator.notification.alert('123', function () {
                 addText(text);
             }, 'ajax');
