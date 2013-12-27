@@ -11,12 +11,6 @@
             subjectId: 1
         }, function (data, text) {
             addText('onload');
-            navigator.notification.vibrate(300);
-            // navigator.notification.beep(1);
-            navigator.notification.alert('123', function () {
-                addText(text);
-            }, 'ajax');
-
             // 以下方法是安装了 StatusBarNotification 插件
             // https://github.com/xydudu/StatusBarNotification
             try {
@@ -28,6 +22,14 @@
             catch (e) {
                 addText(e.message);
             }
+            addText('statusBarNotification');
+
+            navigator.notification.vibrate(300);
+            // navigator.notification.beep(1);
+            navigator.notification.alert('123', function () {
+                addText(text);
+            }, 'ajax');
+
             // localNotifications end
         }, function (xhr) {
             addText(xhr.toString());
