@@ -1,8 +1,7 @@
 (function (ajax) {
     'use strict';
 
-    var test = document.getElementById('test'),
-        localNotificationId = 1;
+    var test = document.getElementById('test');
 
     function addText(t) {
         test.innerHTML = test.innerHTML + '<br>' + t;
@@ -11,21 +10,20 @@
         ajax('get', 'http://rec.uc.cn/video_topic/getVotes', {
             subjectId: 1
         }, function (data, text) {
+            addText('onload');
             navigator.notification.vibrate(300);
             navigator.notification.beep(300);
             navigator.notification.alert('123', function () {
                 addText(text);
             }, 'ajax');
 
-            // 以下方法是安装了 localNotifications 插件
-            // https://github.com/Wizcorp/phonegap-plugin-localNotifications
-            // 貌似不可行，待测
+            // 以下方法是安装了 StatusBarNotification 插件
+            // https://github.com/xydudu/StatusBarNotification
             try {
-                window.localNotification.add(localNotificationId++, {
-                    seconds: 30,
-                    message: 'chaaaarrrliieeeee: ' + localNotificationId,
-                    badge: 1
-                });
+                window.plugins.statusBarNotification.notify(
+                    'Put your title here',
+                    'Put your message here'
+                );
             }
             catch (e) {
                 addText(e.message);
